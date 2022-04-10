@@ -1,8 +1,10 @@
-build:
-	go build -o ./build/ ganyu.go
+files = ganyu.go config.go distro.go meta.go commands.go
+
+compile:
+	go build -o ./build/ $(files)
 
 install:
-	go install -ldflags="-s -w" ganyu.go
+	go install -ldflags="-s -w" $(files)
 
 release:
 	pwsh Release.ps1
