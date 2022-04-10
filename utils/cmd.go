@@ -3,11 +3,31 @@ package utils
 import (
 	"os"
 	"os/exec"
+	"runtime"
 )
 
-func RunShell(cmd string, args ...string) error {
-	c := exec.Command(cmd, args...)
+func RunShell(root bool, cmd string, args ...string) error {
+	var c *exec.Cmd
+	if root {
+		if runtime.GOOS == "windows" {
+			if CommandExists("wsudox") {
+				c = exec.Command("wsudox", append([]string{cmd}, args...)...)
+			} else {
+				c = exec.Command(cmd, args...)
+			}
+		} else {
+			c = exec.Command("sudo", append([]string{cmd}, args...)...)
+		}
+	} else {
+		c = exec.Command(cmd, args...)
+	}
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
+	c.Stdin = os.Stdin
 	return c.Run()
+}
+
+func CommandExists(cmd string) bool {
+	_, err := exec.LookPath(cmd)
+	return err == nil
 }

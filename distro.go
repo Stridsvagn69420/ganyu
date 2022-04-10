@@ -1,4 +1,4 @@
-package utils
+package main
 
 import (
 	"runtime"
@@ -27,6 +27,7 @@ func OSType() OS_ID {
 		id := cfg.Section("").Key("ID").String()
 		switch id {
 		// Fedora
+		case "centos":
 		case "fedora":
 			return Fedora
 		// Debian
