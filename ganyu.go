@@ -22,9 +22,8 @@ func main() {
 		utils.Printer.Errorln("Custom command file isn't present!", pringo.Yellow)
 	}
 	if len(os.Args) < 1 {
-		// Error message
 		// Print help
-		// Exit 1
+		os.Exit(1)
 	} else {
 		// Get command
 		switch os.Args[1] {

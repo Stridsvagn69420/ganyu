@@ -20,7 +20,7 @@ func sysupdate(system OS_ID, root bool, cross bool) {
 		}
 		// Ganyu tool via gosdk
 		if utils.CommandExists("go") {
-			utils.RunShell(false, "go", "install", "github.com/Stridsvagn69420/ganyu@latest")
+			utils.RunShell(false, "go", "install", "github.com/Stridsvagn69420/ganyu")
 		}
 	}
 
