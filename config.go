@@ -9,6 +9,14 @@ import (
 
 type Config struct {
 	Sysupdate Sysupdate `json:"sysupdate"`
+	Ytdl      []Ytdl    `json:"yt-dl"`
+}
+
+type Ytdl struct {
+	Audio      string `json:"audio"`
+	Video      string `json:"video"`
+	AudioVideo string `json:"audio+video"`
+	Website    string `json:"website"`
 }
 
 type Sysupdate struct {

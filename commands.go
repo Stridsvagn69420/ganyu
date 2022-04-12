@@ -10,13 +10,17 @@ func sysupdate(system OS_ID, root bool, cross bool) {
 	if cross {
 		// Cross-platform package managers
 		if utils.CommandExists("kagero") {
-			systemupdate.Kagero(root)
+			systemupdate.Kagero(false)
 		}
 		if utils.CommandExists("kaze") {
 			systemupdate.Kaze(root)
 		}
 		if utils.CommandExists("snap") {
 			systemupdate.Snap(root)
+		}
+		// Ganyu tool via gosdk
+		if utils.CommandExists("go") {
+			utils.RunShell(false, "go", "get", "-u", "github.com/Stridsvagn69420/ganyu")
 		}
 	}
 
