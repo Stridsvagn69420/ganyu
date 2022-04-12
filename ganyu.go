@@ -14,7 +14,7 @@ func main() {
 	config, err := config()
 	if err != nil {
 		utils.Printer.Errorln("Config file isn't present!", pringo.RedBright)
-		utils.Printer.Errorln("Please read the instructions at "+REPOSITORY, pringo.Yellow)
+		utils.Printer.Errorln("Please read the instructions at "+REPOSITORY, pringo.YellowBright)
 		os.Exit(1)
 	}
 	customcmd, err := custom.ReadCustom(custom.CustomCommandPath)
@@ -32,20 +32,14 @@ func main() {
 			sysupdate(OSType(), config.Sysupdate.Root, config.Sysupdate.CrossPkg)
 
 		default:
-			// Check if command is custom
-			notfound := true
-			for _, cmd := range customcmd {
-				if os.Args[1] == cmd.Name {
-					// Execute custom command
-					notfound = false
-					err := utils.RunShell(cmd.Root, cmd.Cmd, cmd.Args...)
-					if err != nil {
-						utils.Printer.Errorln(err.Error(), pringo.RedBright)
-						os.Exit(1)
-					}
+			// Try running custom command
+			cmd, found := custom.FindCustom(os.Args[1], customcmd)
+			if found {
+				err := custom.RunCustom(cmd)
+				if err != nil {
+					utils.Printer.Errorln(err.Error(), pringo.Red)
 				}
-			}
-			if notfound {
+			} else {
 				utils.Printer.Errorln("Command "+os.Args[1]+" not found or doesn't exist yet!", pringo.Red)
 				os.Exit(1)
 			}
