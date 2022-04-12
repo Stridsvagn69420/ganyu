@@ -38,7 +38,11 @@ func main() {
 				if os.Args[1] == cmd.Name {
 					// Execute custom command
 					notfound = false
-					utils.RunShell(cmd.Root, cmd.Cmd, cmd.Args...)
+					err := utils.RunShell(cmd.Root, cmd.Cmd, cmd.Args...)
+					if err != nil {
+						utils.Printer.Errorln(err.Error(), pringo.RedBright)
+						os.Exit(1)
+					}
 				}
 			}
 			if notfound {

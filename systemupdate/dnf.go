@@ -5,8 +5,8 @@ import (
 )
 
 func fedora(root *bool, pkg string) {
-	utils.RunShell(*root, "check-update", "-y")
-	utils.RunShell(*root, "upgrade", "-y")
+	utils.RunShell(*root, pkg, "check-update", "-y")
+	utils.RunShell(*root, pkg, "upgrade", "-y")
 }
 
 func Yum(root *bool) {
