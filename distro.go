@@ -75,8 +75,13 @@ func sysupdate(system OS_ID, root bool, cross bool) {
 		if snapExists {
 			systemupdate.Snap(root)
 		}
+
 		// Ganyu tool via gosdk
-		if utils.CommandExists("go") && utils.IsInGopath(os.Args[0]) {
+		location, err := os.Executable()
+		if err != nil {
+			location = os.Args[0]
+		}
+		if utils.CommandExists("go") && utils.IsInGopath(location) {
 			utils.Printer.Println("Updating Ganyu...", pringo.CyanBright)
 			err := utils.RunShell(false, "go", "install", "github.com/Stridsvagn69420/ganyu@latest")
 			if err != nil {
