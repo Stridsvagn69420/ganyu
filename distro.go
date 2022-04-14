@@ -35,12 +35,15 @@ func OSType() OS_ID {
 		// Fedora
 		case "fedora", "centos":
 			return Fedora
+
 		// Debian
 		case "debian", "ubuntu", "linuxmint":
 			return Debian
+
 		// Arch Linux
 		case "arch", "artix", "manjaro":
 			return Arch
+
 		// Everything else
 		default:
 			return Linux
@@ -91,6 +94,12 @@ func sysupdate(system OS_ID, root bool, cross bool) {
 		systemupdate.Arch(root)
 	case Fedora:
 		systemupdate.Fedora(root)
+	case Darwin:
+		if utils.CommandExists("brew") {
+			systemupdate.Brew(root)
+		} else {
+			utils.Printer.Errorln("No package manager found!", pringo.Red)
+		}
 	case Windows:
 		if utils.CommandExists("choco") {
 			systemupdate.Choco(root)
