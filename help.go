@@ -6,21 +6,22 @@ import (
 	"github.com/Stridsvagn69420/pringo"
 )
 
-var cmd *pringo.Printer = utils.Printer
+var cli *pringo.Printer = utils.Printer
 
+// ----- Help -----
 func printCommand(name string, desc string) {
-	cmd.Println("  "+name, pringo.WhiteBright)
-	cmd.Println("  => "+desc, pringo.White)
+	cli.Println("  "+name, pringo.WhiteBright)
+	cli.Println("  => "+desc, pringo.White)
 }
 
 func PrintHelp(cstm []custom.Custom) {
 	// ---- Print usage ----
-	cmd.Print("USAGE: ", pringo.Cyan)
-	cmd.Println("ganyu <command> [args...]", pringo.White)
-	cmd.Writeln("")
+	cli.Print("USAGE: ", pringo.CyanBright)
+	cli.Println("ganyu <command> [args...]", pringo.White)
+	cli.Writeln("")
 
 	// ---- Print available commands ----
-	cmd.Println("COMMANDS:", pringo.Cyan)
+	cli.Println("COMMANDS:", pringo.CyanBright)
 
 	// Built-in commands
 	printCommand("update", "Updates Ganyu and the system via the package manager(s) available on your system")
@@ -29,19 +30,9 @@ func PrintHelp(cstm []custom.Custom) {
 
 	// Custom commands
 	if len(cstm) > 0 {
-		cmd.Writeln("")
+		cli.Writeln("")
 	}
 	for _, c := range cstm {
 		printCommand(c.Name, c.Desc)
 	}
-}
-
-func PrintInfo() {
-	// Meta
-	cmd.Println("Ganyu - Enhance your workflow across Linux distros and Windows", pringo.CyanBright)
-	cmd.Println("License: "+LICENSE, pringo.Cyan)
-	cmd.Println("Version: "+VERSION, pringo.Cyan)
-	cmd.Println("Repository: "+REPOSITORY, pringo.Cyan)
-	cmd.Println("Author: "+AUTHOR, pringo.Cyan)
-
 }

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/Stridsvagn69420/ganyu/systemupdate"
 	"github.com/Stridsvagn69420/ganyu/utils"
 	"github.com/Stridsvagn69420/pringo"
@@ -19,7 +21,8 @@ func sysupdate(system OS_ID, root bool, cross bool) {
 			systemupdate.Snap(root)
 		}
 		// Ganyu tool via gosdk
-		if utils.CommandExists("go") {
+		if utils.CommandExists("go") && utils.IsInGopath(os.Args[0]) {
+			utils.RunShell(false, "go", "get", "github.com/Stridsvagn69420/ganyu")
 			utils.RunShell(false, "go", "install", "github.com/Stridsvagn69420/ganyu")
 		}
 	}

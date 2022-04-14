@@ -22,6 +22,7 @@ func main() {
 	}
 	if len(os.Args) < 2 {
 		PrintInfo()
+		cli.Writeln("")
 		PrintHelp(customcmd)
 		os.Exit(1)
 	} else {
@@ -32,6 +33,9 @@ func main() {
 
 		case "help":
 			PrintHelp(customcmd)
+
+		case "version":
+			PrintInfo()
 
 		default:
 			// Try running custom command

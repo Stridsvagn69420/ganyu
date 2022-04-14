@@ -3,6 +3,7 @@ package utils
 import (
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"runtime"
 )
 
@@ -32,4 +33,14 @@ func GetHomeDir() string {
 		}
 	}
 	return homedir
+}
+
+func IsInGopath(location string) bool {
+	gopath := os.Getenv("GOPATH")
+	appname := "ganyu"
+	if runtime.GOOS == "windows" {
+		appname = "ganyu.exe"
+	}
+	target := filepath.Join(gopath, "bin", appname)
+	return location == target
 }
