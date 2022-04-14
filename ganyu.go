@@ -3,10 +3,9 @@ package main
 import (
 	"os"
 
+	"github.com/Stridsvagn69420/ganyu/custom"
 	"github.com/Stridsvagn69420/ganyu/utils"
 	"github.com/Stridsvagn69420/pringo"
-
-	"github.com/Stridsvagn69420/ganyu/custom"
 )
 
 func main() {
@@ -21,14 +20,18 @@ func main() {
 	if err != nil {
 		utils.Printer.Errorln("Custom command file isn't present!", pringo.Yellow)
 	}
-	if len(os.Args) < 1 {
-		// Print help
+	if len(os.Args) < 2 {
+		PrintInfo()
+		PrintHelp(customcmd)
 		os.Exit(1)
 	} else {
 		// Get command
 		switch os.Args[1] {
 		case "update":
 			sysupdate(OSType(), config.Sysupdate.Root, config.Sysupdate.CrossPkg)
+
+		case "help":
+			PrintHelp(customcmd)
 
 		default:
 			// Try running custom command
@@ -39,11 +42,10 @@ func main() {
 					utils.Printer.Errorln(err.Error(), pringo.Red)
 				}
 			} else {
-				utils.Printer.Errorln("Command "+os.Args[1]+" not found or doesn't exist yet!", pringo.Red)
+				utils.Printer.Errorln("Command "+os.Args[1]+" not found or doesn't exist yet!", pringo.RedBright)
 				os.Exit(1)
 			}
 		}
 	}
-
 	os.Exit(0)
 }

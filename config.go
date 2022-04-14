@@ -8,6 +8,7 @@ import (
 )
 
 type Config struct {
+	RPC       bool      `json:"rpc"`
 	Sysupdate Sysupdate `json:"sysupdate"`
 	Ytdl      []Ytdl    `json:"yt-dl"`
 }

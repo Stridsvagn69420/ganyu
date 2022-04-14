@@ -10,6 +10,7 @@ import (
 var CustomCommandPath = filepath.Join(utils.GetHomeDir(), ".config/ganyu/custom.json")
 
 type Custom struct {
+	Desc string   `json:"desc"`
 	Name string   `json:"name"`
 	Root bool     `json:"root"`
 	Cmd  string   `json:"cmd"`

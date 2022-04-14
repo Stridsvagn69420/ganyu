@@ -1,5 +1,5 @@
 # Ganyu
-A tool to standardize commands across Linux distros and Windows
+Enhance your workflow across Linux distros and Windows
 
 # Installation
 ## Downloading
@@ -20,6 +20,7 @@ WIP.
 You need to create a config file like this at `~/.config/ganyu/config.json`:
 ```json
 {
+    "rpc": true,
     "sysupdate": {
         "root": true,
         "crosspkg": true
