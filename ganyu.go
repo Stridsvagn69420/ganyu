@@ -31,6 +31,11 @@ func main() {
 		case "update":
 			sysupdate(OSType(), config.Sysupdate.Root, config.Sysupdate.CrossPkg)
 
+		case "info":
+			PrintInfo(false)
+			cli.Writeln("")
+			PrintHelp(customcmd, false)
+
 		case "help":
 			PrintHelp(customcmd, false)
 
