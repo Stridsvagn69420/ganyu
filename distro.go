@@ -33,15 +33,12 @@ func OSType() OS_ID {
 		id := cfg.Section("").Key("ID").String()
 		switch id {
 		// Fedora
-		case "centos":
-		case "fedora":
+		case "fedora", "centos":
 			return Fedora
 		// Debian
-		case "ubuntu":
-		case "debian":
+		case "debian", "ubuntu":
 			return Debian
 		// Arch Linux
-		case "artix":
 		case "arch":
 			return Arch
 		// Everything else
@@ -58,14 +55,21 @@ func OSType() OS_ID {
 
 func sysupdate(system OS_ID, root bool, cross bool) {
 	if cross {
+		kageroExists := utils.CommandExists("kagero")
+		kazeExists := utils.CommandExists("kaze")
+		snapExists := utils.CommandExists("snap")
+		if kageroExists || kazeExists || snapExists {
+			utils.Printer.Println("Updating cross-platform packages...", pringo.CyanBright)
+		}
+
 		// Cross-platform package managers
-		if utils.CommandExists("kagero") {
+		if kageroExists {
 			systemupdate.Kagero(false)
 		}
-		if utils.CommandExists("kaze") {
+		if kazeExists {
 			systemupdate.Kaze(root)
 		}
-		if utils.CommandExists("snap") {
+		if snapExists {
 			systemupdate.Snap(root)
 		}
 		// Ganyu tool via gosdk
