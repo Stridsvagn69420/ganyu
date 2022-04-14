@@ -24,6 +24,45 @@ const (
 	Unknown OS_ID = "unknown"
 )
 
+func OSRich() string {
+	switch runtime.GOOS {
+	// Linux
+	case "linux":
+		cfg, err := ini.Load("/etc/os-release")
+		if err != nil {
+			return "Unknown Linux"
+		}
+		return cfg.Section("").Key("PRETTY_NAME").String()
+
+	// BSD
+	case "openbsd":
+		return "OpenBSD"
+
+	case "freebsd":
+		return "FreeBSD"
+
+	case "netbsd":
+		return "NetBSD"
+
+	case "dragonflybsd":
+		return "DragonFly BSD"
+
+	// Unix
+	case "solaris":
+		return "Solaris"
+
+	case "darwin":
+		return "Apple MacOS"
+
+	// Windows and other
+	case "windows":
+		return "Microsoft Windows"
+
+	default:
+		return "Unknown OS (" + runtime.GOOS + ")"
+	}
+}
+
 func OSType() OS_ID {
 	if runtime.GOOS == "linux" {
 		cfg, err := ini.Load("/etc/os-release")
