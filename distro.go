@@ -36,10 +36,10 @@ func OSType() OS_ID {
 		case "fedora", "centos":
 			return Fedora
 		// Debian
-		case "debian", "ubuntu":
+		case "debian", "ubuntu", "linuxmint":
 			return Debian
 		// Arch Linux
-		case "arch":
+		case "arch", "artix", "manjaro":
 			return Arch
 		// Everything else
 		default:
