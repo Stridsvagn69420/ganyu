@@ -48,7 +48,7 @@ func main() {
 			if found {
 				err := custom.RunCustom(cmd)
 				if err != nil {
-					utils.Printer.Errorln(err.Error(), pringo.Red)
+					os.Exit(1)
 				}
 			} else {
 				utils.Printer.Errorln("Command "+os.Args[1]+" not found or doesn't exist yet!", pringo.RedBright)
