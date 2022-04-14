@@ -8,26 +8,35 @@ import (
 
 const (
 	NAME       = "Ganyu"
-	VERSION    = "v0.1.2"
+	VERSION    = "v0.1.3"
 	REPOSITORY = "https://github.com/Stridsvagn69420/ganyu"
 	AUTHOR     = "Stridsvagn69420 (https://github.com/Stridsvagn69420)"
 	LICENSE    = "GPL-3.0"
 )
 
-func PrintInfo() {
+func PrintInfo(err bool) {
+	var title pringo.Color
+	var font pringo.Color
+	if err {
+		title = pringo.RedBright
+		font = pringo.Red
+	} else {
+		title = pringo.CyanBright
+		font = pringo.Cyan
+	}
 	// Meta
-	cli.Println("Ganyu - Enhance your workflow across Linux distros and Windows", pringo.CyanBright)
-	metaEntry("Version", VERSION)
-	metaEntry("Author", AUTHOR)
-	metaEntry("Repository", REPOSITORY)
-	metaEntry("License", LICENSE)
+	cli.Println("Ganyu - Enhance your workflow across Linux distros and Windows", title)
+	metaEntry("Version", VERSION, font)
+	metaEntry("Author", AUTHOR, font)
+	metaEntry("Repository", REPOSITORY, font)
+	metaEntry("License", LICENSE, font)
 	// System info
-	metaEntry("OS", string(OSType()))
-	metaEntry("Arch", runtime.GOARCH)
-	metaEntry("Go", runtime.Version())
+	metaEntry("OS", string(OSType()), font)
+	metaEntry("Arch", runtime.GOARCH, font)
+	metaEntry("Go", runtime.Version(), font)
 }
 
-func metaEntry(key string, value string) {
-	cli.Print(key+": ", pringo.Cyan)
+func metaEntry(key string, value string, color pringo.Color) {
+	cli.Print(key+": ", color)
 	cli.Writeln(value)
 }

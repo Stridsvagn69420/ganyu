@@ -21,9 +21,9 @@ func main() {
 		utils.Printer.Errorln("Custom command file isn't present!", pringo.Yellow)
 	}
 	if len(os.Args) < 2 {
-		PrintInfo()
+		PrintInfo(true)
 		cli.Writeln("")
-		PrintHelp(customcmd)
+		PrintHelp(customcmd, true)
 		os.Exit(1)
 	} else {
 		// Get command
@@ -32,10 +32,10 @@ func main() {
 			sysupdate(OSType(), config.Sysupdate.Root, config.Sysupdate.CrossPkg)
 
 		case "help":
-			PrintHelp(customcmd)
+			PrintHelp(customcmd, false)
 
 		case "version":
-			PrintInfo()
+			PrintInfo(false)
 
 		default:
 			// Try running custom command

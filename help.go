@@ -14,14 +14,20 @@ func printCommand(name string, desc string) {
 	cli.Println("  => "+desc, pringo.White)
 }
 
-func PrintHelp(cstm []custom.Custom) {
+func PrintHelp(cstm []custom.Custom, err bool) {
+	var title pringo.Color
+	if err {
+		title = pringo.RedBright
+	} else {
+		title = pringo.CyanBright
+	}
 	// ---- Print usage ----
-	cli.Print("USAGE: ", pringo.CyanBright)
+	cli.Print("USAGE: ", title)
 	cli.Println("ganyu <command> [args...]", pringo.White)
 	cli.Writeln("")
 
 	// ---- Print available commands ----
-	cli.Println("COMMANDS:", pringo.CyanBright)
+	cli.Println("COMMANDS:", title)
 
 	// Built-in commands
 	printCommand("update", "Updates Ganyu and the system via the package manager(s) available on your system")
