@@ -70,11 +70,16 @@ func sysupdate(system OS_ID, root bool, cross bool) {
 		}
 		// Ganyu tool via gosdk
 		if utils.CommandExists("go") && utils.IsInGopath(os.Args[0]) {
-			utils.RunShell(false, "go", "install", "github.com/Stridsvagn69420/ganyu@latest")
+			utils.Printer.Println("Updating Ganyu...", pringo.CyanBright)
+			err := utils.RunShell(false, "go", "install", "github.com/Stridsvagn69420/ganyu@latest")
+			if err != nil {
+				utils.Printer.Errorln("Failed to update Ganyu with Go SDK!", pringo.Red)
+			}
 		}
 	}
 
 	// System package managers
+	utils.Printer.Println("Updating system packages...", pringo.CyanBright)
 	switch system {
 	case Debian:
 		systemupdate.Apt(root)
