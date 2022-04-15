@@ -24,6 +24,45 @@ const (
 	Unknown OS_ID = "unknown"
 )
 
+func OSRich() string {
+	switch runtime.GOOS {
+	// Linux
+	case "linux":
+		cfg, err := ini.Load("/etc/os-release")
+		if err != nil {
+			return "Unknown Linux"
+		}
+		return cfg.Section("").Key("PRETTY_NAME").String()
+
+	// BSD
+	case "openbsd":
+		return "OpenBSD"
+
+	case "freebsd":
+		return "FreeBSD"
+
+	case "netbsd":
+		return "NetBSD"
+
+	case "dragonflybsd":
+		return "DragonFly BSD"
+
+	// Unix
+	case "solaris":
+		return "Solaris"
+
+	case "darwin":
+		return "Apple MacOS"
+
+	// Windows and other
+	case "windows":
+		return "Microsoft Windows"
+
+	default:
+		return "Unknown OS (" + runtime.GOOS + ")"
+	}
+}
+
 func OSType() OS_ID {
 	if runtime.GOOS == "linux" {
 		cfg, err := ini.Load("/etc/os-release")
@@ -35,12 +74,15 @@ func OSType() OS_ID {
 		// Fedora
 		case "fedora", "centos":
 			return Fedora
+
 		// Debian
-		case "debian", "ubuntu":
+		case "debian", "ubuntu", "linuxmint":
 			return Debian
+
 		// Arch Linux
-		case "arch":
+		case "arch", "artix", "manjaro":
 			return Arch
+
 		// Everything else
 		default:
 			return Linux
@@ -72,8 +114,13 @@ func sysupdate(system OS_ID, root bool, cross bool) {
 		if snapExists {
 			systemupdate.Snap(root)
 		}
+
 		// Ganyu tool via gosdk
-		if utils.CommandExists("go") && utils.IsInGopath(os.Args[0]) {
+		location, err := os.Executable()
+		if err != nil {
+			location = os.Args[0]
+		}
+		if utils.CommandExists("go") && utils.IsInGopath(location) {
 			utils.Printer.Println("Updating Ganyu...", pringo.CyanBright)
 			err := utils.RunShell(false, "go", "install", "github.com/Stridsvagn69420/ganyu@latest")
 			if err != nil {
@@ -91,6 +138,12 @@ func sysupdate(system OS_ID, root bool, cross bool) {
 		systemupdate.Arch(root)
 	case Fedora:
 		systemupdate.Fedora(root)
+	case Darwin:
+		if utils.CommandExists("brew") {
+			systemupdate.Brew(root)
+		} else {
+			utils.Printer.Errorln("No package manager found!", pringo.Red)
+		}
 	case Windows:
 		if utils.CommandExists("choco") {
 			systemupdate.Choco(root)

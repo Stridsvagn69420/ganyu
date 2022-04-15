@@ -1,4 +1,4 @@
-files = ganyu.go config.go distro.go meta.go help.go
+files = ganyu.go config.go distro.go meta.go help.go rpc.go
 
 compile:
 	go build -o ./build/ $(files)
