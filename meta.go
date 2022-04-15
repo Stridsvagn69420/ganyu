@@ -8,7 +8,7 @@ import (
 
 const (
 	NAME       = "Ganyu"
-	VERSION    = "v0.1.4"
+	VERSION    = "v0.1.5"
 	REPOSITORY = "https://github.com/Stridsvagn69420/ganyu"
 	AUTHOR     = "Stridsvagn69420 (https://github.com/Stridsvagn69420)"
 	LICENSE    = "GPL-3.0"

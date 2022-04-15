@@ -16,9 +16,6 @@ func main() {
 		utils.Printer.Errorln("Please read the instructions at "+REPOSITORY, pringo.YellowBright)
 		os.Exit(1)
 	}
-	if config.RPC {
-		go StartRPC()
-	}
 
 	// Custom commands
 	customcmd, err := custom.ReadCustom(custom.CustomCommandPath)
@@ -34,6 +31,9 @@ func main() {
 		// Get command
 		switch os.Args[1] {
 		case "update":
+			if config.RPC {
+				StartRPC()
+			}
 			go UpdateRPC(OSRich(), "Updating the system")
 			sysupdate(OSType(), config.Sysupdate.Root, config.Sysupdate.CrossPkg)
 
@@ -52,7 +52,10 @@ func main() {
 			// Try running custom command
 			cmd, found := custom.FindCustom(os.Args[1], customcmd)
 			if found {
-				go UpdateRPC(cmd.Name, "Running a custom command")
+				if config.RPC {
+					StartRPC()
+				}
+				UpdateRPC(cmd.Name, "Running a custom command")
 				err := custom.RunCustom(cmd)
 				if err != nil {
 					os.Exit(1)
@@ -63,6 +66,6 @@ func main() {
 			}
 		}
 	}
-	StopRPC()
+	go StopRPC()
 	os.Exit(0)
 }

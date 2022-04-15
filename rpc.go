@@ -12,7 +12,9 @@ var Active bool = false
 
 func StartRPC() {
 	err := client.Login(RPCID)
-	if err == nil {
+	if err != nil {
+		Active = false
+	} else {
 		Active = true
 	}
 }
