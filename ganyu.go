@@ -17,7 +17,7 @@ func main() {
 		os.Exit(1)
 	}
 	if config.RPC {
-		StartRPC()
+		go StartRPC()
 	}
 
 	// Custom commands
@@ -34,8 +34,7 @@ func main() {
 		// Get command
 		switch os.Args[1] {
 		case "update":
-
-			UpdateRPC(OSRich(), "Updating the system")
+			go UpdateRPC(OSRich(), "Updating the system")
 			sysupdate(OSType(), config.Sysupdate.Root, config.Sysupdate.CrossPkg)
 
 		case "info":
@@ -53,7 +52,7 @@ func main() {
 			// Try running custom command
 			cmd, found := custom.FindCustom(os.Args[1], customcmd)
 			if found {
-				UpdateRPC(cmd.Name, "Running a custom command")
+				go UpdateRPC(cmd.Name, "Running a custom command")
 				err := custom.RunCustom(cmd)
 				if err != nil {
 					os.Exit(1)

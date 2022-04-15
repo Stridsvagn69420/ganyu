@@ -12,7 +12,7 @@ foreach ($osArch in $rawArray) {
     if ($env:GOOS -eq "windows") {
         $filename += ".exe"
     }
-    (go build -o ./build/$filename -ldflags="-s -w" ganyu.go config.go distro.go meta.go help.go) | Out-Null
+    (go build -o ./build/$filename -ldflags="-s -w" ganyu.go config.go distro.go meta.go help.go rpc.go) | Out-Null
     # Release
     if (Test-Path ./build/$filename -PathType Leaf) {
         $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath "./build/$filename").Hash.ToLower()
