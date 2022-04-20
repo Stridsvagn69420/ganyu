@@ -1,10 +1,13 @@
 package main
 
 import (
+	"net/url"
 	"os"
 
 	"github.com/Stridsvagn69420/ganyu/custom"
 	"github.com/Stridsvagn69420/ganyu/utils"
+	"github.com/Stridsvagn69420/ganyu/ytdl"
+
 	"github.com/Stridsvagn69420/pringo"
 )
 
@@ -36,6 +39,54 @@ func main() {
 			}
 			go UpdateRPC(OSRich(), "Updating the system")
 			sysupdate(OSType(), config.Sysupdate.Root, config.Sysupdate.CrossPkg)
+
+		case "ytdl":
+			if len(os.Args) < 5 {
+				cli.Errorln("Please provide a URL, Media Type and Output directory!", pringo.RedBright)
+				cli.Errorln("See "+os.Args[0]+" help for more.", pringo.Red)
+				os.Exit(1)
+			} else {
+				if config.RPC {
+					StartRPC()
+				}
+				// Check if Hostname exists in config
+				url, err := url.Parse(os.Args[2])
+				if err != nil {
+					cli.Errorln("Invalid URL!", pringo.RedBright)
+					os.Exit(1)
+				}
+				// Set Discord status
+				go UpdateRPC(os.Args[2], "Downloading a video from "+url.Host)
+				location := -1
+				for n, i := range config.Ytdl {
+					if i.Website == url.Host {
+						location = n
+					}
+				}
+				// Download the video
+				if location == -1 {
+					cli.Errorln("Website not found in config!", pringo.Yellow)
+					// Print available formats
+					ytdl.PrintAvailable(os.Args[2])
+					// Ask user what format to use
+					format := cli.Promtln("Please enter the format you'd like to use: ", pringo.None)
+					// Download
+					ytdl.Download(os.Args[2], format, os.Args[4])
+				} else {
+					switch os.Args[3] {
+					case "audio":
+						ytdl.Download(os.Args[2], config.Ytdl[location].Video, os.Args[4])
+					case "video":
+						ytdl.Download(os.Args[2], config.Ytdl[location].Audio, os.Args[4])
+					case "combined":
+						ytdl.Download(os.Args[2], config.Ytdl[location].AudioVideo, os.Args[4])
+
+					default:
+						cli.Errorln("Invalid media type!", pringo.RedBright)
+						os.Exit(1)
+					}
+				}
+			}
 
 		case "info":
 			PrintInfo(false)

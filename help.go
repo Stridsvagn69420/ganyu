@@ -31,6 +31,7 @@ func PrintHelp(cstm []custom.Custom, err bool) {
 
 	// Built-in commands
 	printCommand("update", "Updates Ganyu and the system via the package manager(s) available on your system")
+	printCommand("ytdl <URL> [<audio/video/combined> <Output>]", "Downloads a video using youtube-dl or yt-dlp")
 	printCommand("help", "Prints this help message")
 	printCommand("version", "Prints the version of Ganyu as well as other information")
 
