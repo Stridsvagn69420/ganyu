@@ -5,19 +5,13 @@ import (
 	"path/filepath"
 
 	"github.com/Stridsvagn69420/ganyu/utils"
+	"github.com/Stridsvagn69420/ganyu/ytdl"
 )
 
 type Config struct {
-	RPC       bool      `json:"rpc"`
-	Sysupdate Sysupdate `json:"sysupdate"`
-	Ytdl      []Ytdl    `json:"yt-dl"`
-}
-
-type Ytdl struct {
-	Audio      string `json:"audio"`
-	Video      string `json:"video"`
-	AudioVideo string `json:"audio+video"`
-	Website    string `json:"website"`
+	RPC       bool        `json:"rpc"`
+	Sysupdate Sysupdate   `json:"sysupdate"`
+	Ytdl      []ytdl.Ytdl `json:"yt-dl"`
 }
 
 type Sysupdate struct {

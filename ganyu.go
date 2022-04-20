@@ -64,28 +64,7 @@ func main() {
 					}
 				}
 				// Download the video
-				if location == -1 {
-					cli.Errorln("Website not found in config!", pringo.Yellow)
-					// Print available formats
-					ytdl.PrintAvailable(os.Args[2])
-					// Ask user what format to use
-					format := cli.Promtln("Please enter the format you'd like to use: ", pringo.None)
-					// Download
-					ytdl.Download(os.Args[2], format, os.Args[4])
-				} else {
-					switch os.Args[3] {
-					case "audio":
-						ytdl.Download(os.Args[2], config.Ytdl[location].Video, os.Args[4])
-					case "video":
-						ytdl.Download(os.Args[2], config.Ytdl[location].Audio, os.Args[4])
-					case "combined":
-						ytdl.Download(os.Args[2], config.Ytdl[location].AudioVideo, os.Args[4])
-
-					default:
-						cli.Errorln("Invalid media type!", pringo.RedBright)
-						os.Exit(1)
-					}
-				}
+				ytdl.DownloadHandle(location, config.Ytdl)
 			}
 
 		case "info":
