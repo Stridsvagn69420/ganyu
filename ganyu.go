@@ -42,7 +42,7 @@ func main() {
 
 		case "ytdl":
 			if len(os.Args) < 5 {
-				cli.Errorln("Please provide a URL, Media Type and Output directory!", pringo.RedBright)
+				cli.Errorln("Please provide a Media Type, URL and Output directory!", pringo.RedBright)
 				cli.Errorln("See "+os.Args[0]+" help for more.", pringo.Red)
 				os.Exit(1)
 			} else {
@@ -50,7 +50,7 @@ func main() {
 					StartRPC()
 				}
 				// Check if Hostname exists in config
-				url, err := url.Parse(os.Args[2])
+				url, err := url.Parse(os.Args[3])
 				if err != nil {
 					cli.Errorln("Invalid URL!", pringo.RedBright)
 					os.Exit(1)
