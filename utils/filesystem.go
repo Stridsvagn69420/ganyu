@@ -44,3 +44,29 @@ func IsInGopath(location string) bool {
 	target := filepath.Join(gopath, "bin", appname)
 	return location == target
 }
+
+func ReadFiles(location string) []string {
+	files, err := ioutil.ReadDir(location)
+	if err != nil {
+		return make([]string, 0)
+	}
+
+	var filelist []string
+	for _, file := range files {
+		if !file.IsDir() {
+			filelist = append(filelist, file.Name())
+		}
+	}
+	return filelist
+}
+
+func DirExists(dir string) bool {
+	_, err := os.Stat(dir)
+	if err == nil {
+		return true
+	}
+	if os.IsNotExist(err) {
+		return false
+	}
+	return false
+}

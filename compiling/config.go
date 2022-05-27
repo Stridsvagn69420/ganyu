@@ -6,7 +6,7 @@ const (
 	Dart       Compiler = "dart"
 	Flutter    Compiler = "flutter"
 	Golang     Compiler = "go"
-	Rust       Compiler = "rust"
+	Rust       Compiler = "cargo"
 	Java       Compiler = "java"
 	Maven      Compiler = "maven"
 	Nodejs     Compiler = "nodejs"
@@ -18,7 +18,6 @@ const (
 	GXX        Compiler = "g++"
 	Clang      Compiler = "clang"
 	ClangXX    Compiler = "clang++"
-	Msvc       Compiler = "msvc"
 )
 
 type CompileConfig struct {

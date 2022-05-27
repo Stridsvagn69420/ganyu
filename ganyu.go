@@ -1,10 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"net/url"
 	"os"
+	"path/filepath"
 
 	"github.com/Stridsvagn69420/ganyu/custom"
+	"github.com/Stridsvagn69420/ganyu/template"
 	"github.com/Stridsvagn69420/ganyu/utils"
 	"github.com/Stridsvagn69420/ganyu/ytdl"
 
@@ -65,6 +68,56 @@ func main() {
 				}
 				// Download the video
 				ytdl.DownloadHandle(location, config.Ytdl)
+			}
+
+		case "template":
+			archivedir := filepath.Join(utils.GetHomeDir(), ".config", "ganyu", "templates")
+			if !utils.DirExists(archivedir) {
+				cli.Errorln("Template directory isn't present!", pringo.Red)
+				cli.Errorln("See "+REPOSITORY+"/wiki/Templates for more!", pringo.Yellow)
+				os.Exit(1)
+			}
+			templates := template.ListTemplates(archivedir)
+
+			switch len(os.Args) {
+			case 2:
+				// List templates
+				if len(templates) == 0 {
+					cli.Println("No template available yet!", pringo.BlueBright)
+				} else {
+					cli.Println("Available templates:", pringo.BlueBright)
+					for i, template := range templates {
+						cli.Print("["+fmt.Sprint(i)+"]=> ", pringo.Cyan)
+						cli.Writeln(template.Name)
+					}
+				}
+
+			case 3:
+				// Create template in current directory
+				cwd, _ := os.Getwd()
+				err := template.CreateTemplate(
+					template.GetTemplate(templates, os.Args[2]),
+					cwd,
+				)
+				if err != nil {
+					cli.Errorln("Template not created successfully!", pringo.Red)
+					os.Exit(1)
+				}
+
+			case 4:
+				// Create template in specified directory
+				err := template.CreateTemplate(
+					template.GetTemplate(templates, os.Args[2]),
+					os.Args[3],
+				)
+				if err != nil {
+					cli.Errorln("Template not created successfully!", pringo.Red)
+					os.Exit(1)
+				}
+
+			default:
+				cli.Errorln("Too many arguments!", pringo.Red)
+				os.Exit(1)
 			}
 
 		case "info":
