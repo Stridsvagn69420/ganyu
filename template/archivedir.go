@@ -24,13 +24,6 @@ func ListTemplates(dir string) []Template {
 			templates = append(templates, newTemplate(file, ".ps1", PwshScript, dir))
 		case ".sh":
 			templates = append(templates, newTemplate(file, ".sh", ShScript, dir))
-		default:
-			if strings.HasSuffix(file, ".tar.xz") {
-				templates = append(templates, newTemplate(file, ".tar.xz", TarXzArchive, dir))
-			}
-			if strings.HasSuffix(file, ".tar.gz") {
-				templates = append(templates, newTemplate(file, ".tar.gz", TarGzArchive, dir))
-			}
 		}
 	}
 	return templates

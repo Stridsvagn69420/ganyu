@@ -2,10 +2,7 @@ package template
 
 import (
 	"archive/zip"
-	"compress/gzip"
-	"compress/zlib"
 	"encoding/json"
-	"os"
 
 	"github.com/Stridsvagn69420/ganyu/utils"
 )
@@ -48,36 +45,4 @@ func zipArchive(pathtofile string, outputpath string) error {
 		}
 	}
 	return nil
-}
-
-func tarxzArchive(pathtofile string, outputpath string) error {
-	file, err := os.Open(pathtofile)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	zl, err := zlib.NewReader(file)
-	if err != nil {
-		return err
-	}
-	defer zl.Close()
-
-	return untar(zl, outputpath)
-}
-
-func targzArchive(pathtofile string, outputpath string) error {
-	file, err := os.Open(pathtofile)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	gz, err := gzip.NewReader(file)
-	if err != nil {
-		return err
-	}
-	defer gz.Close()
-
-	return untar(gz, outputpath)
 }

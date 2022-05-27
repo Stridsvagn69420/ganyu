@@ -17,13 +17,11 @@ type Command struct {
 type Archive string
 
 const (
-	CommandFile  Archive = ".command"
-	ZipArchive   Archive = ".zip"
-	PwshScript   Archive = ".ps1"
-	ShScript     Archive = ".sh"
-	TarXzArchive Archive = ".tar.xz"
-	TarGzArchive Archive = ".tar.gz"
-	Invalid      Archive = ""
+	CommandFile Archive = ".command"
+	ZipArchive  Archive = ".zip"
+	PwshScript  Archive = ".ps1"
+	ShScript    Archive = ".sh"
+	Invalid     Archive = ""
 )
 
 func GetArchiveType(pathfile string) Archive {
@@ -35,10 +33,6 @@ func GetArchiveType(pathfile string) Archive {
 		return PwshScript
 	case ".sh":
 		return ShScript
-	case ".tar.xz":
-		return TarXzArchive
-	case ".tar.gz":
-		return TarGzArchive
 	case ".command":
 		return CommandFile
 	default:
@@ -54,10 +48,6 @@ func RunTemplate(tmplt Template, outputdir string) error {
 		return pwshFile(tmplt.Path, outputdir)
 	case ShScript:
 		return shFile(tmplt.Path, outputdir)
-	case TarXzArchive:
-		return tarxzArchive(tmplt.Path, outputdir)
-	case TarGzArchive:
-		return targzArchive(tmplt.Path, outputdir)
 	case CommandFile:
 		return commandFile(tmplt.Path, outputdir)
 	}

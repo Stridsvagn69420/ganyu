@@ -87,12 +87,16 @@ func main() {
 				} else {
 					cli.Println("Available templates:", pringo.BlueBright)
 					for i, template := range templates {
-						cli.Print("["+fmt.Sprint(i)+"]=> ", pringo.Cyan)
+						cli.Print("["+fmt.Sprint(i+1)+"] => ", pringo.Cyan)
 						cli.Writeln(template.Name)
 					}
 				}
 
 			case 3:
+				if config.RPC {
+					StartRPC()
+				}
+				go UpdateRPC("With template "+os.Args[2], "Creating a new project")
 				// Create template in current directory
 				cwd, _ := os.Getwd()
 				err := template.CreateTemplate(
@@ -105,6 +109,10 @@ func main() {
 				}
 
 			case 4:
+				if config.RPC {
+					StartRPC()
+				}
+				go UpdateRPC("With template "+os.Args[2], "Creating a new project")
 				// Create template in specified directory
 				err := template.CreateTemplate(
 					template.GetTemplate(templates, os.Args[2]),
