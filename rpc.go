@@ -34,6 +34,7 @@ func UpdateRPC(state string, details string) {
 					Url:   REPOSITORY,
 				},
 			},
+			LargeImage: "ganyu",
 		})
 	}
 }
