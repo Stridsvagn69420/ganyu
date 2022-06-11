@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/Stridsvagn69420/ganyu/custom"
 	"github.com/Stridsvagn69420/ganyu/template"
@@ -129,11 +130,16 @@ func main() {
 			}
 
 		case "gitpull":
+			var rpctime time.Time
 			if config.RPC {
 				StartRPC()
+				rpctime = time.Now()
 			}
 			for _, repopath := range config.Git.Repos {
-				go UpdateRPC(repopath, "Pulling from origin")
+				if config.RPC {
+					go UpdateRPCTime(repopath, "Pulling from origin", rpctime)
+				}
+				cli.Println("["+repopath+"] ", pringo.CyanBright)
 				cmderr := utils.RunShellCwd(filepath.Join(config.Git.BaseDir, repopath), false, "git", "pull")
 				if cmderr != nil {
 					cli.Errorln("Error while pulling from "+repopath, pringo.Red)
