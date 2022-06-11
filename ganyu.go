@@ -128,6 +128,20 @@ func main() {
 				os.Exit(1)
 			}
 
+		case "gitpull":
+			if config.RPC {
+				StartRPC()
+			}
+			for _, repopath := range config.Git.Repos {
+				go UpdateRPC(repopath, "Pulling from origin")
+				cmderr := utils.RunShellCwd(filepath.Join(config.Git.BaseDir, repopath), false, "git", "pull")
+				if cmderr != nil {
+					cli.Errorln("Error while pulling from "+repopath, pringo.Red)
+					cli.Errln(err.Error())
+					os.Exit(1)
+				}
+			}
+
 		case "info":
 			PrintInfo(false)
 			cli.Writeln("")
