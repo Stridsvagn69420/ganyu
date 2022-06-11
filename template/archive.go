@@ -8,7 +8,7 @@ import (
 )
 
 func commandFile(pathtofile string, outputpath string) error {
-	var cmd Command
+	var cmd []Command
 	command, err := utils.ReadFileByteArray(pathtofile)
 	if err != nil {
 		return err
@@ -17,7 +17,13 @@ func commandFile(pathtofile string, outputpath string) error {
 	if err != nil {
 		return err
 	}
-	return utils.RunShell(false, cmd.Cmd, cmd.Args...)
+	for _, c := range cmd {
+		err = utils.RunShell(false, c.Cmd, c.Args...)
+		if err != nil {
+			return err
+		}
+	}
+	return err
 }
 
 func pwshFile(pathtofile string, outputpath string) error {
