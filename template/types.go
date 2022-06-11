@@ -9,19 +9,13 @@ import (
 	"github.com/Stridsvagn69420/pringo"
 )
 
-type Command struct {
-	Cmd  string   `json:"cmd"`
-	Args []string `json:"args"`
-}
-
 type Archive string
 
 const (
-	CommandFile Archive = ".command"
-	ZipArchive  Archive = ".zip"
-	PwshScript  Archive = ".ps1"
-	ShScript    Archive = ".sh"
-	Invalid     Archive = ""
+	ZipArchive Archive = ".zip"
+	PwshScript Archive = ".ps1"
+	ShScript   Archive = ".sh"
+	Invalid    Archive = ""
 )
 
 func GetArchiveType(pathfile string) Archive {
@@ -33,8 +27,6 @@ func GetArchiveType(pathfile string) Archive {
 		return PwshScript
 	case ".sh":
 		return ShScript
-	case ".command":
-		return CommandFile
 	default:
 		return Invalid
 	}
@@ -48,8 +40,6 @@ func RunTemplate(tmplt Template, outputdir string) error {
 		return pwshFile(tmplt.Path, outputdir)
 	case ShScript:
 		return shFile(tmplt.Path, outputdir)
-	case CommandFile:
-		return commandFile(tmplt.Path, outputdir)
 	}
 	return nil
 }

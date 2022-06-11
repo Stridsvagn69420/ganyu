@@ -24,8 +24,6 @@ func ListTemplates(dir string) []Template {
 			templates = append(templates, newTemplate(file, ".ps1", PwshScript, dir))
 		case ".sh":
 			templates = append(templates, newTemplate(file, ".sh", ShScript, dir))
-		case ".command":
-			templates = append(templates, newTemplate(file, ".command", CommandFile, dir))
 		}
 	}
 	return templates
