@@ -139,7 +139,7 @@ func main() {
 				if config.RPC {
 					go UpdateRPCTime(repopath, "Pulling from origin", rpctime)
 				}
-				cli.Println("["+repopath+"] ", pringo.CyanBright)
+				cli.Println("["+repopath+"] ", pringo.Cyan)
 				cmderr := utils.RunShellCwd(filepath.Join(config.Git.BaseDir, repopath), false, "git", "pull")
 				if cmderr != nil {
 					cli.Errorln("Error while pulling from "+repopath, pringo.Red)
