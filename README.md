@@ -44,7 +44,16 @@ You need to create a config file like this at `~/.config/ganyu/config.json`:
             "audio+video": "http-2176",
             "website": "twitter.com"
         }
-    ]
+    ],
+    "git": {
+        "base": "/home/joe/Code",
+        "repos": [
+            "EpicStuff",
+            "CoolGame/Game",
+            "Other/Servers/PowerNukkit",
+            "Weedb"
+        ]
+    }
 }
 ```
 These are default settings, so change them how you'd like. See more [in the wiki](https://github.com/Stridsvagn69420/ganyu/wiki/Config).

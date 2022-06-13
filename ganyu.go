@@ -19,15 +19,15 @@ func main() {
 	// Read config and init RPC
 	config, err := config()
 	if err != nil {
-		utils.Printer.Errorln("Config file isn't present!", pringo.RedBright)
-		utils.Printer.Errorln("Please read the instructions at "+REPOSITORY, pringo.YellowBright)
+		cli.Errorln("Config file isn't present!", pringo.RedBright)
+		cli.Errorln("Please read the instructions at "+REPOSITORY, pringo.YellowBright)
 		os.Exit(1)
 	}
 
 	// Custom commands
 	customcmd, err := custom.ReadCustom(custom.CustomCommandPath)
 	if err != nil {
-		utils.Printer.Errorln("Custom command file isn't present!", pringo.Yellow)
+		cli.Errorln("Custom command file isn't present!", pringo.Yellow)
 	}
 	if len(os.Args) < 2 {
 		PrintInfo(true)
@@ -42,7 +42,16 @@ func main() {
 				StartRPC()
 			}
 			go UpdateRPC(OSRich(), "Updating the system")
-			sysupdate(OSType(), config.Sysupdate.Root, config.Sysupdate.CrossPkg)
+			switch sysupdate(OSType(), config.Sysupdate.Root, config.Sysupdate.CrossPkg) {
+			case nil:
+				cli.Println("System updated!", pringo.GreenBright)
+			case ErrNotSupported:
+				cli.Errorln("Your system is currently not supported!", pringo.Red)
+				os.Exit(1)
+			default:
+				cli.Errorln("Failed to update system!", pringo.Red)
+				os.Exit(0)
+			}
 
 		case "ytdl":
 			if len(os.Args) < 5 {
@@ -172,7 +181,7 @@ func main() {
 					os.Exit(1)
 				}
 			} else {
-				utils.Printer.Errorln("Command "+os.Args[1]+" not found or doesn't exist yet!", pringo.RedBright)
+				cli.Errorln("Command "+os.Args[1]+" not found or doesn't exist yet!", pringo.RedBright)
 				os.Exit(1)
 			}
 		}

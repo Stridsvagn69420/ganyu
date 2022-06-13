@@ -4,23 +4,23 @@ import (
 	"github.com/Stridsvagn69420/ganyu/utils"
 )
 
-func fedora(root *bool, pkg string) {
+func fedora(root *bool, pkg string) error {
 	utils.RunShell(*root, pkg, "check-update", "-y")
-	utils.RunShell(*root, pkg, "upgrade", "-y")
+	return utils.RunShell(*root, pkg, "upgrade", "-y")
 }
 
-func Yum(root *bool) {
-	fedora(root, "yum")
+func Yum(root *bool) error {
+	return fedora(root, "yum")
 }
 
-func Dnf(root *bool) {
-	fedora(root, "dnf")
+func Dnf(root *bool) error {
+	return fedora(root, "dnf")
 }
 
-func Fedora(root bool) {
+func Fedora(root bool) error {
 	if utils.CommandExists("dnf") {
-		Dnf(&root)
+		return Dnf(&root)
 	} else {
-		Yum(&root)
+		return Yum(&root)
 	}
 }

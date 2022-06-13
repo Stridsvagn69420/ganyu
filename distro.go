@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"runtime"
 
 	"os"
@@ -17,6 +18,7 @@ type OS_ID string
 const (
 	Debian  OS_ID = "debian"
 	Arch    OS_ID = "arch"
+	Void    OS_ID = "void"
 	Fedora  OS_ID = "fedora"
 	Windows OS_ID = "windows"
 	Linux   OS_ID = "linux"
@@ -83,6 +85,10 @@ func OSType() OS_ID {
 		case "arch", "artix", "manjaro":
 			return Arch
 
+		// Void Linux
+		case "void":
+			return Void
+
 		// Everything else
 		default:
 			return Linux
@@ -95,7 +101,7 @@ func OSType() OS_ID {
 	return Unknown
 }
 
-func sysupdate(system OS_ID, root bool, cross bool) {
+func sysupdate(system OS_ID, root bool, cross bool) error {
 	if cross {
 		kageroExists := utils.CommandExists("kagero")
 		kazeExists := utils.CommandExists("kaze")
@@ -133,24 +139,30 @@ func sysupdate(system OS_ID, root bool, cross bool) {
 	utils.Printer.Println("Updating system packages...", pringo.CyanBright)
 	switch system {
 	case Debian:
-		systemupdate.Apt(root)
+		return systemupdate.Apt(root)
 	case Arch:
-		systemupdate.Arch(root)
+		return systemupdate.Arch(root)
+	case Void:
+		return systemupdate.Void(root)
 	case Fedora:
-		systemupdate.Fedora(root)
+		return systemupdate.Fedora(root)
 	case Darwin:
 		if utils.CommandExists("brew") {
-			systemupdate.Brew(root)
+			return systemupdate.Brew(root)
 		} else {
 			utils.Printer.Errorln("No package manager found!", pringo.Red)
+			return nil
 		}
 	case Windows:
 		if utils.CommandExists("choco") {
-			systemupdate.Choco(root)
+			return systemupdate.Choco(root)
 		} else {
 			utils.Printer.Errorln("No package manager found!", pringo.Red)
+			return nil
 		}
 	default:
-		utils.Printer.Errorln("Your system is currently not supported!", pringo.Red)
+		return ErrNotSupported
 	}
 }
+
+var ErrNotSupported = errors.New("system not supported")

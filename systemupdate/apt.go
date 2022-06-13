@@ -4,7 +4,7 @@ import (
 	"github.com/Stridsvagn69420/ganyu/utils"
 )
 
-func Apt(root bool) {
+func Apt(root bool) error {
 	utils.RunShell(root, "apt", "update", "-y")
-	utils.RunShell(root, "apt", "upgrade", "-y")
+	return utils.RunShell(root, "apt", "upgrade", "-y")
 }

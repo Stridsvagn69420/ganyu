@@ -30,12 +30,16 @@ func PrintHelp(cstm []custom.Custom, err bool) {
 	cli.Println("COMMANDS:", title)
 
 	// Built-in commands
+	// Base commands in the order they got added
 	printCommand("update", "Updates Ganyu and the system via the package manager(s) available on your system")
 	printCommand("ytdl <audio/video/combined> <URL> <Output>", "Downloads a video using youtube-dl or yt-dlp")
 	printCommand("template <TemplateName> [Outdir]", "Creates a project from a template file, e.g. a script or an archive, in the current directory unless specified.")
 	printCommand("gitpull", "Pull from all repositories listed in the config file")
+	printCommand("build", "Runs the Ganyu Build System to compile the current project")
+	// Help utils
 	printCommand("help", "Prints this help message")
 	printCommand("version", "Prints the version of Ganyu as well as other information")
+	printCommand("info", "Prints both version and help message")
 
 	// Custom commands
 	if len(cstm) > 0 {
