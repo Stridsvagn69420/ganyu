@@ -49,7 +49,6 @@ func RunShellCwd(directory string, root bool, cmd string, args ...string) error 
 		c.Dir = pathdir
 	}
 	c.Stdout = os.Stdout
-	c.Stderr = os.Stderr
 	c.Stdin = os.Stdin
 	return c.Run()
 }

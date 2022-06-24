@@ -144,6 +144,7 @@ func main() {
 				StartRPC()
 				rpctime = time.Now()
 			}
+			pullerrors := 0
 			for _, repopath := range config.Git.Repos {
 				if config.RPC {
 					go UpdateRPCTime(repopath, "Pulling from origin", rpctime)
@@ -152,9 +153,15 @@ func main() {
 				cmderr := utils.RunShellCwd(filepath.Join(config.Git.BaseDir, repopath), false, "git", "pull")
 				if cmderr != nil {
 					cli.Errorln("Error while pulling from "+repopath, pringo.Red)
-					cli.Errln(err.Error())
-					os.Exit(1)
+					pullerrors++
 				}
+			}
+			switch pullerrors {
+			case 0:
+				cli.Println("Done!", pringo.GreenBright)
+			default:
+				cli.Printf("%d error(s) occured while pulling from %d repositories!", pringo.Red, pullerrors, len(config.Git.Repos))
+				os.Exit(1)
 			}
 
 		case "info":
