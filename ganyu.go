@@ -160,7 +160,7 @@ func main() {
 			case 0:
 				cli.Println("Done!", pringo.GreenBright)
 			default:
-				cli.Printf("%d error(s) occured while pulling from %d repositories!", pringo.Red, pullerrors, len(config.Git.Repos))
+				cli.Printf("%d error(s) occured while pulling from %d repositories!\n", pringo.Red, pullerrors, len(config.Git.Repos))
 				os.Exit(1)
 			}
 
