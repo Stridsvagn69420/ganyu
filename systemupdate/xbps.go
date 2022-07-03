@@ -5,7 +5,6 @@ import (
 )
 
 func Void(root bool) error {
-	utils.RunShell(root, "xbps-install", "-Su")
 	utils.RunShell(root, "xbps-install", "-u", "xbps")
 	return utils.RunShell(root, "xbps-install", "-Su")
 }
